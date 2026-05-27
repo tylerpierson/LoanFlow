@@ -1,0 +1,15 @@
+node_modules
+release
+dist
+uploads
+.venv
+.DS_Store
+backend/build
+backend/dist
+frontend/dist
+LoanFlow.iconset
+backend/credentials.json
+backend/token.json
+backend/outputsbackend/credentials.json
+backend/token.json
+backend/outputs

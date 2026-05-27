@@ -1,0 +1,50 @@
+name: Build Windows LoanFlow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install backend dependencies
+        working-directory: backend
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller fastapi uvicorn python-multipart pymupdf pillow pytesseract google-api-python-client google-auth google-auth-oauthlib
+
+      - name: Build Windows analyzer
+        working-directory: backend
+        run: |
+          python -m PyInstaller docusplit_analyzer.spec
+
+      - name: Verify analyzer exists
+        run: |
+          dir backend\dist\loneflow_analyzer
+
+      - name: Install root dependencies
+        run: npm install
+
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm install
+
+      - name: Build Windows Electron App
+        run: npm run dist:win
+
+      - name: Upload Windows Build
+        uses: actions/upload-artifact@v4
+        with:
+          name: LoanFlow-Windows
+          path: release/**
