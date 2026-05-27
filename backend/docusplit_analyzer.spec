@@ -5,8 +5,6 @@ a = Analysis(
     pathex=[],
     binaries=[],
     datas=[
-        ("uploads", "uploads"),
-        ("outputs", "outputs"),
         ("../resources/tesseract", "resources/tesseract"),
     ],
     hiddenimports=[
